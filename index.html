@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOURNAMENT MLBB | APIKOFFICIALMY 🇲🇾</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050014;
+            --primary-glow: #7209b7;
+            --secondary-glow: #8a2be2;
+            --accent-purple: #da70d6;
+            --text-main: #ffffff;
+            --text-muted: #b3b8d4;
+            
+            /* LIQUID GLASSMORPHISM CORE SPECS */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.12);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --transition: cubic-bezier(0.25, 0.8, 0.25, 1) 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            /* FORCE ALL TEXT ACROSS THE PAGE TO BE UPPERCASE AND BOLD */
+            text-transform: uppercase;
+            font-weight: 900 !important;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- LIQUID BLOB BACKGROUND ANIMATIONS --- */
+        .liquid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            filter: blur(80px);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            opacity: 0.45;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--primary-glow);
+            top: -10%;
+            left: -10%;
+            animation-duration: 25s;
+        }
+
+        .blob-2 {
+            width: 600px;
+            height: 600px;
+            background: var(--secondary-glow);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 30s;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-purple);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { transform: translate(40px, -60px) scale(1.1) rotate(180deg); border-radius: 70% 30% 52% 48% / 60% 40% 70% 30%; }
+            100% { transform: translate(-20px, 20px) scale(0.9) rotate(360deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
+        /* --- LAYOUT STRUCTURE --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* --- GLASS MORPHISM REUSABLE CLASS --- */
+        .glass-card {
+            background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.01));
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-highlight);
+            border-left: 1px solid var(--glass-highlight);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(138, 43, 226, 0.2);
+        }
+
+        /* --- HERO HEADER --- */
+        header {
+            text-align: center;
+            padding: 40px 0 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: var(--accent-purple);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        /* BANNER TOURNAMENT IMAGE STYLING */
+        .tournament-banner {
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(114, 9, 183, 0.2);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            line-height: 1.2;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 30%, #e1bee7 70%, var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- INTERACTIVE BUTTONS --- */
+        .btn {
+            position: relative;
+            padding: 16px 40px;
+            border: none;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #7209b7, #4a00e0);
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 15px 30px rgba(114, 9, 183, 0.4);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before { left: 100%; }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(114, 9, 183, 0.6);
+        }
+
+        /* --- CONTENT CARDS ARCHITECTURE --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 12px;
+        }
+
+        .section-header i {
+            color: var(--accent-purple);
+            filter: drop-shadow(0 0 8px var(--accent-purple));
+        }
+
+        /* PRIZE POOL LAYOUT CUSTOMIZATION */
+        .prize-pool-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .prize-rank {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px 10px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+        }
+
+        .prize-rank .rank-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .prize-rank .amount {
+            font-size: 1.3rem;
+        }
+
+        .entry-fee-tag {
+            margin-top: 20px;
+            text-align: center;
+            background: rgba(218, 112, 214, 0.1);
+            border: 1px dashed var(--accent-purple);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        /* TEXT LISTING STYLES */
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .info-list li i {
+            color: var(--accent-purple);
+            font-size: 0.85rem;
+        }
+
+        /* --- LIQUID MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 0, 20, 0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 460px;
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px; right: 22px;
+            cursor: pointer;
+            font-size: 22px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .close:hover { color: white; transform: rotate(90deg); }
+
+        .modal h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .qr-wrapper {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .qr {
+            width: 180px;
+            display: block;
+        }
+
+        .modal p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        .wa-btn-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .wa-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .wa-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        /* --- RESPONSIVE OPTIMIZATIONS --- */
+        @media (max-width: 600px) {
+            .prize-pool-container { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+            header { padding: 30px 0 20px; }
+            .tournament-banner { max-width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="liquid-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+</div>
+
+<div class="container">
+    
+    <header>
+        <div class="badge"><i class="fa-solid fa-bolt"></i> ESPORTS REGISTRATION OPEN</div>
+        
+        <img src="bannero.jpg" alt="TOURNAMENT BANNER" class="tournament-banner">
+        
+        <h1>TOURNAMENT MLBB<br>APIKOFFICIALMY 🇲🇾</h1>
+        <p>PREMIUM ONLINE CHAMPIONSHIP TOURNAMENT</p>
+        <button class="btn" onclick="openModal()">REGISTER NOW</button>
+    </header>
+
+    <div class="glass-card">
+        <div class="section-header">
+            <i class="fa-solid fa-trophy"></i>
+            <span>TOTAL PRIZEPOOL: RM300.00</span>
+        </div>
+        <div class="prize-pool-container">
+            <div class="prize-rank">
+                <div class="rank-title">🥇 CHAMPIONS</div>
+                <div class="amount" style="color: #ffd700;">RM150</div>
+            </div>
+            <div class="prize-rank">
+                <div class="rank-title">🥈 RUNNER-UP</div>
+                <div class="amount" style="color: #c0c0c0;">RM90</div>
+            </div>
+            <div class="prize-rank">
+                <div class="rank-title">🥉 3RD PLACE</div>
+                <div class="amount" style="color: #cd7f32;">RM60</div>
+            </div>
+        </div>
+        <div class="entry-fee-tag">
+            <i class="fa-solid fa-ticket" style="margin-right: 6px;"></i> FEE JOIN: RM5 / TEAM
+        </div>
+    </div>
+
+    <div class="card-grid">
+        
+        <div class="glass-card">
+            <div class="section-header">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>MATCH DETAILS & FORMAT</span>
+            </div>
+            <ul class="info-list">
+                <li><i class="fa-solid fa-circle"></i> FORMAT PERLAWANAN - BO1</li>
+                <li><i class="fa-solid fa-circle"></i> TOP 8 SEHINGGA GRANDFINAL - BO3</li>
+                <li><i class="fa-solid fa-circle"></i> SEMI FINAL: ROOM TOURNAMENT</li>
+                <li><i class="fa-solid fa-circle"></i> GRAND FINAL: ROOM TOURNAMENT + CASTER</li>
+            </ul>
+        </div>
+
+        <div class="glass-card">
+            <div class="section-header">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>SCHEDULE & TIME</span>
+            </div>
+            <ul class="info-list">
+                <li><i class="fa-solid fa-calendar"></i> MATCH DAY - 4/6 - 6/6</li>
+                <li><i class="fa-solid fa-clock"></i> MASA PERLAWANAN - 9:00PM - END</li>
+                <li><i class="fa-solid fa-location-dot"></i> DISCORD / WHATSAPP BRIEFING</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="glass-card">
+        <div class="section-header">
+            <i class="fa-solid fa-gift"></i>
+            <span>EXCLUSIVE BENEFITS</span>
+        </div>
+        <ul class="info-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+            <li><i class="fa-solid fa-id-card"></i> E-CERTIFICATE FOR ALL PARTICIPANTS</li>
+            <li><i class="fa-solid fa-star"></i> MVP SPECIAL REWARDS</li>
+            <li><i class="fa-solid fa-crown"></i> FMVP LEGENDARY BONUS</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="close" onclick="closeModal()">✕</div>
+        
+        <h2>PAYMENT DETAILS</h2>
+        <p style="font-size: 0.85rem; color: var(--accent-purple); margin-bottom: 10px;">SCAN QR BELOW TO EXECUTE TRANSACTION</p>
+
+        <div class="qr-wrapper">
+            <img src="qrcode.jpg" alt="PAYMENT QR CODE" class="qr">
+        </div>
+
+        <p>SILA HANTAR BUTIRAN MAKLUMAT PASUKAN SERTA RESIT BUKTI PEMBAYARAN YANG SAH KE SALAH SATU PAUTAN WHATSAPP DI BAWAH:</p>
+
+        <div class="wa-btn-container">
+            <a class="wa-btn"
+               href="https://wa.me/601175756689?text=ASSALAMUALAIKUM%2C%20SAYA%20TELAH%20MEMBUAT%20PEMBAYARAN%20FEE%20TOURNAMENT%20MLBB%20APIKOFFICIALMY%20MELALUI%20WEBSITE.%0A%0ANAMA%20TEAM%3A%0A%0ANO.%20HP%20LEADER%20TEAM%3A">
+               <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> HUBUNGI WHATSAPP (ADMIN 1)
+            </a>
+            
+            <a class="wa-btn" style="background: #128C7E;"
+               href="https://wa.me/601128568243?text=ASSALAMUALAIKUM%2C%20SAYA%20TELAH%20MEMBUAT%20PEMBAYARAN%20FEE%20TOURNAMENT%20MLBB%20APIKOFFICIALMY%20MELALUI%20WEBSITE.%0A%0ANAMA%20TEAM%3A%0A%0ANO.%20HP%20LEADER%20TEAM%3A">
+               <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> HUBUNGI WHATSAPP (ADMIN 2)
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal");
+
+    function openModal(){
+        modal.style.display = "flex";
+        setTimeout(() => {
+            modal.classList.add("active");
+        }, 10);
+    }
+
+    function closeModal(){
+        modal.classList.remove("active");
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 400);
+    }
+
+    window.onclick = function(e){
+        if(e.target === modal){
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>
